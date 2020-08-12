@@ -7,12 +7,17 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Cuarentinistas"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LayoutTest"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".RealizarInversiones"></activity>
+        <activity android:name=".MisInversiones" />
+        <activity android:name=".RealizarTransferencia" />
+        <activity android:name=".MisCuentas" />
+        <activity android:name=".UltimosMovimientos" />
+        <activity android:name=".Lobby" />
+        <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

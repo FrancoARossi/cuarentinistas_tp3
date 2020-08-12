@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">cuarentinistas_tp3</string>
+    <string name="obtener_cliente_1">Obtener Cliente 1</string>
+    <string name="probar_get">Probar GET</string>
+    <string name="name">Name</string>
+    <string name="usuario">Usuario</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="enviar">Enviar</string>
+    <string name="ultimos_movimientos">Ultimos Movimientos</string>
+    <string name="mis_cuentas">Mis Cuentas</string>
+    <string name="realizar_transferencia">Realizar Transferencia</string>
+    <string name="mis_inversiones">Mis Inversiones</string>
+    <string name="realizar_inversion">Realizar Inversion</string>
+    <string name="realizar_inversiones">Realizar Inversiones</string>
 </resources>
