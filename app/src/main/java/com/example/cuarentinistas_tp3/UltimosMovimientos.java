@@ -2,7 +2,9 @@ package com.example.cuarentinistas_tp3;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -43,15 +45,20 @@ public class UltimosMovimientos extends AppCompatActivity {
                 TableLayout table = (TableLayout) findViewById(R.id.ult_movs_table);
                 TableRow row = new TableRow(getApplicationContext());
                 for (Iterator key = data.keys(); key.hasNext();) {
-                    TextView text1 = new TextView(getApplicationContext());
-                    text1.setText(data.get((String) key.next()).toString());
-                    text1.setTextColor(Color.BLACK);
-                    text1.setTextSize(14);
-                    row.addView(text1);
+                    TextView row_element = new TextView(getApplicationContext());
+                    row_element.setText(data.get((String) key.next()).toString());
+                    row_element.setTextColor(Color.BLACK);
+                    row_element.setTextSize(14);
+                    // TODO: Agregar separacion entre los elementos
+                    //ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                    //        ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+                    //params.setMargins(10, 10, 10, 10);
+                    //row_element.setLayoutParams(params);
+                    row.addView(row_element);
                 }
                 table.addView(row);
             } catch (JSONException e) {
-                //some exception handler code.
+                setContentView(R.layout.rest_error_layout);
             }
         }
     }

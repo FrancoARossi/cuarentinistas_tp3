@@ -10,4 +10,7 @@
     <string name="mis_inversiones">Mis Inversiones</string>
     <string name="realizar_inversion">Realizar Inversion</string>
     <string name="realizar_inversiones">Realizar Inversiones</string>
+    <string name="json_rest_get_error">NO SE PUDO OBTENER UN OBJETO JSON MEDIANTE LA LLAMADA GET</string>
+    <string name="get_error">Error al realizar la llamada GET del servicio REST</string>
+    <string name="verificar_internet_rest">Verifique su conexion a internet o el estado del servicio REST</string>
 </resources>
