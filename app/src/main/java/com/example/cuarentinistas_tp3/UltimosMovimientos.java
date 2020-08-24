@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,28 +36,29 @@ public class UltimosMovimientos extends AppCompatActivity {
         @Override
         protected String doInBackground(String... args) {
             //return RESTService.makeGetRequest(ServerAddress.value()+"/rest/movimientos");
-            return RESTService.makeGetRequest("https://jsonplaceholder.typicode.com/todos/1");
+            return RESTService.makeGetRequest("https://jsonplaceholder.typicode.com/todos");
         }
 
         @Override
         protected void onPostExecute(String result) {
+            Toast notificacion = Toast.makeText(
+                    getApplicationContext(), result, Toast.LENGTH_LONG);
+            notificacion.show();
             try {
-                JSONObject data = new JSONObject(result);
+                JSONArray movimientos = new JSONArray(result);
                 TableLayout table = (TableLayout) findViewById(R.id.ult_movs_table);
-                TableRow row = new TableRow(getApplicationContext());
-                for (Iterator key = data.keys(); key.hasNext();) {
-                    TextView row_element = new TextView(getApplicationContext());
-                    row_element.setText(data.get((String) key.next()).toString());
-                    row_element.setTextColor(Color.BLACK);
-                    row_element.setTextSize(14);
-                    // TODO: Agregar separacion entre los elementos
-                    //ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
-                    //        ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
-                    //params.setMargins(10, 10, 10, 10);
-                    //row_element.setLayoutParams(params);
-                    row.addView(row_element);
+                for (int i = 0, size = movimientos.length(); i < size; i++) {
+                    JSONObject movimiento = movimientos.getJSONObject(i);
+                    TableRow row = new TableRow(getApplicationContext());
+                    for (Iterator key = movimiento.keys(); key.hasNext(); ) {
+                        TextView row_element = new TextView(getApplicationContext());
+                        row_element.setText(movimiento.get((String) key.next()).toString());
+                        row_element.setTextColor(Color.BLACK);
+                        row_element.setTextSize(14);
+                        row.addView(row_element);
+                    }
+                    table.addView(row);
                 }
-                table.addView(row);
             } catch (JSONException e) {
                 setContentView(R.layout.rest_error_layout);
             }
