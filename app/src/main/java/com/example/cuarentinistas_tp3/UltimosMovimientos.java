@@ -32,21 +32,31 @@ public class UltimosMovimientos extends AppCompatActivity {
     }
 
 
-    private class asyncCall extends AsyncTask<String, String, String> {
+    private class asyncCall extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... args) {
-            //return RESTService.makeGetRequest(ServerAddress.value()+"/rest/movimientos");
-            return RESTService.makeGetRequest("https://jsonplaceholder.typicode.com/todos");
+            return RESTService.makeGetRequest(ServerAddress.value()+"/rest/movimientos/1");
+            //return RESTService.makeGetRequest("https://jsonplaceholder.typicode.com/todos");
         }
 
         @Override
         protected void onPostExecute(String result) {
-            Toast notificacion = Toast.makeText(
-                    getApplicationContext(), result, Toast.LENGTH_LONG);
-            notificacion.show();
             try {
+                // Si el resultado es un string que contiene el formato de un unico elemento JSON
+                // le agrego los corchetes para que cumpla con el formato de un JSONArray
+                if (result.charAt(0) != '[') {
+                    result = "[" + result + "]";
+                }
+//                Toast notificacion = Toast.makeText(
+//                        getApplicationContext(), result, Toast.LENGTH_LONG);
+//                notificacion.show();
                 JSONArray movimientos = new JSONArray(result);
                 TableLayout table = (TableLayout) findViewById(R.id.ult_movs_table);
+                TableRow.LayoutParams params = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        TableRow.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(0, 0, 10, 2);
                 for (int i = 0, size = movimientos.length(); i < size; i++) {
                     JSONObject movimiento = movimientos.getJSONObject(i);
                     TableRow row = new TableRow(getApplicationContext());
@@ -57,6 +67,7 @@ public class UltimosMovimientos extends AppCompatActivity {
                         row_element.setTextSize(14);
                         row.addView(row_element);
                     }
+                    row.setLayoutParams(params);
                     table.addView(row);
                 }
             } catch (JSONException e) {

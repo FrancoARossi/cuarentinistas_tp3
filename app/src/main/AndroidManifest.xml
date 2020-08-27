@@ -10,7 +10,8 @@
         android:label="@string/cuarentinistas"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity android:name=".RealizarInversiones" />
         <activity android:name=".MisInversiones" />
         <activity android:name=".RealizarTransferencia" />
@@ -20,10 +21,8 @@
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

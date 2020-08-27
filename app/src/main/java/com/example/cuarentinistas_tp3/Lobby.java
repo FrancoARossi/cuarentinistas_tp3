@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 class ServerAddress {
     public static String value() {
-        return "192.168.0.217:8080/cuarentinistas";
+        return "http://192.168.0.217:8080/cuarentinistas";
     }
 }
 
