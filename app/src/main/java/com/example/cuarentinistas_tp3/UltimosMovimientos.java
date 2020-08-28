@@ -23,8 +23,8 @@ import java.util.Iterator;
 
 public class UltimosMovimientos extends AppCompatActivity {
 
-    ArrayList<String> listaDatos;
-    RecyclerView recycler;
+    ArrayList<Movimiento> listaMovimientos;
+    RecyclerView recyclerMovimientos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,8 @@ public class UltimosMovimientos extends AppCompatActivity {
         setTitle("Ultimos Movimientos");
         setContentView(R.layout.activity_ultimos_movimientos);
 
-        recycler = (RecyclerView) findViewById(R.id.recyclerId);
-        recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
+        recyclerMovimientos = (RecyclerView) findViewById(R.id.idRecyclerMovimientos);
+        recyclerMovimientos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
 
         asyncCall getUltimosMovimientos = new asyncCall();
         getUltimosMovimientos.execute();
@@ -56,13 +56,14 @@ public class UltimosMovimientos extends AppCompatActivity {
                     result = "[" + result + "]";
                 }
                 JSONArray movimientos = new JSONArray(result);
-                listaDatos = new ArrayList<String>();
+                listaMovimientos = new ArrayList<>();
+
                 for (int i = 0, size = movimientos.length(); i < size; i++) {
                     JSONObject movimiento = movimientos.getJSONObject(i);
-                    listaDatos.add(movimiento.toString());
+                    listaMovimientos.add(new Movimiento(movimiento.getString("importe"), movimiento.toString()));
                 }
-                AdapterDatos adapter = new AdapterDatos(listaDatos);
-                recycler.setAdapter(adapter);
+                AdaptadorMovimientos adapter = new AdaptadorMovimientos(listaMovimientos);
+                recyclerMovimientos.setAdapter(adapter);
             } catch (JSONException e) {
                 setContentView(R.layout.rest_error_layout);
             }
