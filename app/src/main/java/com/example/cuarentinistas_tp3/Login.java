@@ -14,8 +14,8 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
     }
 
-    public void loadLobby(View view) {
-        Intent intent = new Intent(this, Lobby.class);
+    public void loadMisCuentas(View view) {
+        Intent intent = new Intent(this, MisCuentas.class);
         startActivity(intent);
     }
 

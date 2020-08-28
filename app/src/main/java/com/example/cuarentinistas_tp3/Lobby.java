@@ -25,11 +25,6 @@ public class Lobby extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void loadMisCuentas(View view) {
-        Intent intent = new Intent(this, MisCuentas.class);
-        startActivity(intent);
-    }
-
     public void loadRealizarTransferencia(View view) {
         Intent intent = new Intent(this, RealizarTransferencia.class);
         startActivity(intent);
