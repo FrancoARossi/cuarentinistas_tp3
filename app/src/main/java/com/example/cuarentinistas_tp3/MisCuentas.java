@@ -9,6 +9,7 @@ public class MisCuentas extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Mis Cuentas");
         setContentView(R.layout.activity_mis_cuentas);
     }
 }
