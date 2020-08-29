@@ -2,8 +2,11 @@ package com.example.cuarentinistas_tp3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,17 +15,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+//TODO: Importe negativo o positivo (rojo y verde) dependiendo de si el movimiento
+//      fue saliente o entrante.
+
 public class UltimosMovimientos extends AppCompatActivity {
 
     ArrayList<Movimiento> listaMovimientos;
     RecyclerView recyclerMovimientos;
+    Intent myIntent = getIntent(); // gets the previously created intent
+    String cbuCuenta = myIntent.getStringExtra("cbuCuenta");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,36 +68,53 @@ public class UltimosMovimientos extends AppCompatActivity {
                     Iterator<String> iter = movimiento.keys();
                     String detalle = "";
 
-                    while(iter.hasNext()) {
-                        String key = (String) iter.next();
-                        String keyFormateada = "";
-                        switch (key) {
-                            case "id": continue;
-                            case "cbuDestino": keyFormateada = "CBU Destino"; break;
-                            case "cbuSalida": keyFormateada = "CBU Salida"; break;
-                            case "descripcion": keyFormateada = "Descripcion"; break;
-                            case "fecha": keyFormateada = "Fecha y Hora"; break;
-                            case "importe": keyFormateada = "Importe"; break;
-                            default: break;
-                        }
-                        if (key.equals("fecha")) {
-                            SimpleDateFormat dateParse = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                            Date fechaParseada = dateParse.parse(movimiento.get("fecha").toString());
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss");
-                            String fecha = dateFormat.format(fechaParseada);
-                            detalle += keyFormateada + ": " + fecha + "\n";
-                        } else {
+                    String cbuSalida = movimiento.get("cbuSalida").toString();
+                    String cbuDestino = movimiento.get("cbuDestino").toString();
+
+                    if (cbuSalida.equals(cbuCuenta) || cbuDestino.equals(cbuCuenta)) {
+                        while(iter.hasNext()) {
+                            String key = (String) iter.next();
+                            String keyFormateada = "";
+                            switch (key) {
+                                case "cbuDestino":
+                                    keyFormateada = "CBU Destino";
+                                    break;
+                                case "cbuSalida":
+                                    keyFormateada = "CBU Salida";
+                                    break;
+                                case "descripcion":
+                                    keyFormateada = "Descripcion";
+                                    break;
+                                case "fecha":
+                                    keyFormateada = "Fecha y Hora";
+                                    SimpleDateFormat dateParse = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                                    Date fechaParseada = dateParse.parse(movimiento.get("fecha").toString());
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss");
+                                    String fecha = dateFormat.format(fechaParseada);
+                                    detalle += keyFormateada + ": " + fecha + "\n";
+                                    continue;
+                                default:
+                                    continue;
+                            }
                             detalle += keyFormateada + ": " + movimiento.get(key) + "\n";
                         }
+                        Boolean saliente = movimiento.get("cbuSalida").toString().equals(cbuCuenta);
+                        String importe;
+                        if (saliente) {
+                            importe = "Importe: -";
+                        } else {
+                            importe = "Importe: ";
+                        }
+                        listaMovimientos.add(new Movimiento(importe + movimiento.getString("importe"),
+                                detalle, saliente));
+                    } else {
+                        continue;
                     }
-
-                    listaMovimientos.add(new Movimiento("Importe: " + movimiento.getString("importe"),
-                            detalle));
                 }
                 AdaptadorMovimientos adapter = new AdaptadorMovimientos(listaMovimientos);
                 recyclerMovimientos.setAdapter(adapter);
             } catch (JSONException | ParseException e) {
-                setContentView(R.layout.rest_error_layout);
+                Log.e("ERROR","Se produjo el siguiente error:", e);
             }
         }
     }
