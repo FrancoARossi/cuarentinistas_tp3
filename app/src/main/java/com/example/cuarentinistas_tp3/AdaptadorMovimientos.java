@@ -43,7 +43,7 @@ public class AdaptadorMovimientos extends RecyclerView.Adapter<AdaptadorMovimien
         public ViewHolderMovimientos(@NonNull View itemView) {
             super(itemView);
             importe = (TextView) itemView.findViewById(R.id.idImporte);
-            detalle = (TextView) itemView.findViewById(R.id.idDetalle);
+            detalle = (TextView) itemView.findViewById(R.id.idDetalleMovimiento);
         }
     }
 }

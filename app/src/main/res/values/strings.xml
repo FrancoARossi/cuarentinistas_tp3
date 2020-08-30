@@ -13,4 +13,8 @@
     <string name="json_rest_get_error">NO SE PUDO OBTENER UN OBJETO JSON MEDIANTE LA LLAMADA GET</string>
     <string name="get_error">Error al realizar la llamada GET del servicio REST</string>
     <string name="verificar_internet_rest">Verifique su conexion a internet o el estado del servicio REST</string>
+    <string name="bono">Bono</string>
+    <string name="detalle">Detalle</string>
+    <string name="importe">Importe</string>
+    <string name="nombreBono">nombre_bono</string>
 </resources>
