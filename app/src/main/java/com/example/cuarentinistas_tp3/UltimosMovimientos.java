@@ -2,8 +2,10 @@ package com.example.cuarentinistas_tp3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class UltimosMovimientos extends AppCompatActivity {
 
     ArrayList<Movimiento> listaMovimientos;
     RecyclerView recyclerMovimientos;
+    Intent myIntent = getIntent();
+    String cbuCuenta = myIntent.getStringExtra("cbuCuenta");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +68,6 @@ public class UltimosMovimientos extends AppCompatActivity {
                         String key = (String) iter.next();
                         String keyFormateada = "";
                         switch (key) {
-                            case "id":
-                                continue;
                             case "cbuDestino":
                                 keyFormateada = "CBU Destino";
                                 break;
@@ -79,11 +80,8 @@ public class UltimosMovimientos extends AppCompatActivity {
                             case "fecha":
                                 keyFormateada = "Fecha y Hora";
                                 break;
-                            case "importe":
-                                keyFormateada = "Importe";
-                                break;
                             default:
-                                break;
+                                continue;
                         }
                         if (key.equals("fecha")) {
                             SimpleDateFormat dateParse = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -95,14 +93,19 @@ public class UltimosMovimientos extends AppCompatActivity {
                             detalle += keyFormateada + ": " + movimiento.get(key) + "\n";
                         }
                     }
-
-                    listaMovimientos.add(new Movimiento("Importe: " + movimiento.getString("importe"),
-                            detalle));
+                    Boolean saliente = movimiento.get("cbuSalida").equals(cbuCuenta);
+                    String importe = "";
+                    if (saliente) {
+                        importe = "Importe: -"+movimiento.getString("importe");
+                    } else {
+                        importe = "Importe: "+movimiento.getString("importe");
+                    }
+                    listaMovimientos.add(new Movimiento(importe, detalle, saliente));
                 }
                 AdaptadorMovimientos adapter = new AdaptadorMovimientos(listaMovimientos);
                 recyclerMovimientos.setAdapter(adapter);
             } catch (JSONException | ParseException e) {
-                setContentView(R.layout.rest_error_layout);
+                Log.e("ERROR", "Se produjo el siguiente error:", e);
             }
         }
     }
