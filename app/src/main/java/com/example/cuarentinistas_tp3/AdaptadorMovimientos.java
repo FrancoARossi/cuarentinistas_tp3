@@ -1,6 +1,5 @@
 package com.example.cuarentinistas_tp3;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +28,6 @@ public class AdaptadorMovimientos extends RecyclerView.Adapter<AdaptadorMovimien
     @Override
     public void onBindViewHolder(@NonNull AdaptadorMovimientos.ViewHolderMovimientos holder, int position) {
         holder.importe.setText(listaMovimientos.get(position).getImporte());
-        if (listaMovimientos.get(position).getSaliente()) {
-            String rojo = "#F00F0F";
-            holder.importe.setTextColor(Color.parseColor(rojo));
-        } else {
-            String verde = "#0AA918";
-            holder.importe.setTextColor(Color.parseColor(verde));
-        }
-
         holder.detalle.setText(listaMovimientos.get(position).getDetalle());
     }
 
