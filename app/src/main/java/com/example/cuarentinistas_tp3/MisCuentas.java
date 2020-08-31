@@ -72,13 +72,13 @@ public class MisCuentas extends AppCompatActivity {
         }
     }
 
-    //public void loadMisInversiones(View view) {
-    //Intent intent = new Intent(this, MisInversiones.class);
-    //startActivity(intent);
-    //}
-    public void loadUltimosMovimientos(View view) {
-        Intent intent = new Intent(this, UltimosMovimientos.class);
-        startActivity(intent);
+    public void loadMisInversiones(View view) {
+    Intent intent = new Intent(this, MisInversiones.class);
+    startActivity(intent);
     }
+//    public void loadUltimosMovimientos(View view) {
+//        Intent intent = new Intent(this, UltimosMovimientos.class);
+//        startActivity(intent);
+//    }
 }
 

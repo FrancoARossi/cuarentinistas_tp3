@@ -19,6 +19,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
+
+//TODO: SOLUCIONAR LO DE LA LLAMADA REST DEL BONO (NECESITA HACERSE EN OTRA ASYNCTASK)
 
 public class MisInversiones extends AppCompatActivity {
 
@@ -66,42 +69,13 @@ public class MisInversiones extends AppCompatActivity {
                     String nombreBono = "";
 
                     while (iterInversion.hasNext()) {
-                        String keyInversion = (String) iterInversion.next();
+                        String keyInversion = iterInversion.next();
                         String keyFormateada = "";
 
                         switch (keyInversion) {
                             case "bonoId":
-                                String resultado = RESTService.makeGetRequest(
-                                        "http://192.168.0.217:8080/cuarentinistas/rest/bonos/1");
-                                Toast.makeText(getApplicationContext(), resultado, resultado.length()).show();
-                                JSONObject bono = new JSONObject(resultado);
-                                Iterator<String> iterBono = bono.keys();
-
-                                while (iterBono.hasNext()) {
-                                    String keyBono = (String) iterBono.next();
-                                    switch (keyBono) {
-                                        case "nombre":
-                                            nombreBono = bono.get(keyBono).toString();
-                                            break;
-                                        case "precioCobro":
-                                            keyFormateada = "Precio de Cobro";
-                                            break;
-                                        case "precioPago":
-                                            keyFormateada = "Precio de Pago";
-                                            break;
-                                        case "vencimiento":
-                                            keyFormateada = "Fecha y Hora de Vencimiento";
-                                            SimpleDateFormat dateParse = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                                            Date fechaParseada = dateParse.parse(inversion.get("vencimiento").toString());
-                                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss");
-                                            String fecha = dateFormat.format(fechaParseada);
-                                            detalle += keyFormateada + ": " + fecha + "\n";
-                                            continue;
-                                        default:
-                                            continue;
-                                    }
-                                    detalle += keyFormateada + ": " + bono.get(keyBono) + "\n";
-                                }
+                                MisInversiones.asyncCall getBono = new MisInversiones.asyncCallBono();
+                                getBono.execute(inversion).get();
                             case "cantidad":
                                 keyFormateada = "Cantidad";
                                 break;
@@ -124,8 +98,58 @@ public class MisInversiones extends AppCompatActivity {
                 }
                 AdaptadorInversiones adapter = new AdaptadorInversiones(listaInversiones);
                 recyclerInversiones.setAdapter(adapter);
-            } catch (JSONException | ParseException e) {
+            } catch (JSONException | ParseException | InterruptedException | ExecutionException e) {
                 Log.e("ERROR", "Se produjo el siguiente error:", e);
+            }
+        }
+    }
+
+    private class asyncCallBono extends AsyncTask<JSONObject, Void, String> {
+        JSONObject inversion;
+
+        @Override
+        protected String doInBackground(JSONObject... args) {
+            inversion = args[0];
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            try {
+                String resultado = RESTService.makeGetRequest(ServerAddress.value() + "/rest/bonos/" + inversion.get(keyInversion));
+                Toast.makeText(getApplicationContext(), resultado, resultado.length()).show();
+                JSONObject bono = new JSONObject(resultado);
+                Iterator<String> iterBono = bono.keys();
+
+                String keyFormateada;
+
+                while (iterBono.hasNext()) {
+                    String keyBono = iterBono.next();
+                    switch (keyBono) {
+                        case "nombre":
+                            String nombreBono = bono.get(keyBono).toString();
+                            break;
+                        case "precioCobro":
+                            keyFormateada = "Precio de Cobro";
+                            break;
+                        case "precioPago":
+                            keyFormateada = "Precio de Pago";
+                            break;
+                        case "vencimiento":
+                            keyFormateada = "Fecha y Hora de Vencimiento";
+                            SimpleDateFormat dateParse = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                            Date fechaParseada = dateParse.parse(inversion.get("vencimiento").toString());
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss");
+                            String fecha = dateFormat.format(fechaParseada);
+                            detalle += keyFormateada + ": " + fecha + "\n";
+                            continue;
+                        default:
+                            continue;
+                    }
+                    detalle += keyFormateada + ": " + bono.get(keyBono) + "\n";
+                }
+            } catch (JSONException | ParseException e) {
+                e.printStackTrace();
             }
         }
     }

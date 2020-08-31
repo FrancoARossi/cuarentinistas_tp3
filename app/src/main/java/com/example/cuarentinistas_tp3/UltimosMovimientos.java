@@ -24,8 +24,9 @@ public class UltimosMovimientos extends AppCompatActivity {
 
     ArrayList<Movimiento> listaMovimientos;
     RecyclerView recyclerMovimientos;
-    Intent myIntent = getIntent();
-    String cbuCuenta = myIntent.getStringExtra("cbuCuenta");
+    //Intent myIntent = getIntent();
+    //String cbuCuenta = myIntent.getStringExtra("cbuCuenta");
+    String cbuCuenta = "400720010";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,43 +65,50 @@ public class UltimosMovimientos extends AppCompatActivity {
                     Iterator<String> iter = movimiento.keys();
                     String detalle = "";
 
-                    while (iter.hasNext()) {
-                        String key = (String) iter.next();
-                        String keyFormateada = "";
-                        switch (key) {
-                            case "cbuDestino":
-                                keyFormateada = "CBU Destino";
-                                break;
-                            case "cbuSalida":
-                                keyFormateada = "CBU Salida";
-                                break;
-                            case "descripcion":
-                                keyFormateada = "Descripcion";
-                                break;
-                            case "fecha":
-                                keyFormateada = "Fecha y Hora";
-                                break;
-                            default:
-                                continue;
+                    String cbuSalida = movimiento.get("cbuSalida").toString();
+                    String cbuDestino = movimiento.get("cbuDestino").toString();
+
+                    if (cbuSalida.equals(cbuCuenta) || cbuDestino.equals(cbuCuenta)) {
+                        while (iter.hasNext()) {
+                            String key = (String) iter.next();
+                            String keyFormateada = "";
+                            switch (key) {
+                                case "cbuDestino":
+                                    keyFormateada = "CBU Destino";
+                                    break;
+                                case "cbuSalida":
+                                    keyFormateada = "CBU Salida";
+                                    break;
+                                case "descripcion":
+                                    keyFormateada = "Descripcion";
+                                    break;
+                                case "fecha":
+                                    keyFormateada = "Fecha y Hora";
+                                    break;
+                                default:
+                                    continue;
+                            }
+                            if (key.equals("fecha")) {
+                                SimpleDateFormat dateParse = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                                Date fechaParseada = dateParse.parse(movimiento.get("fecha").toString());
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss");
+                                String fecha = dateFormat.format(fechaParseada);
+                                detalle += keyFormateada + ": " + fecha + "\n";
+                            } else {
+                                detalle += keyFormateada + ": " + movimiento.get(key) + "\n";
+                            }
                         }
-                        if (key.equals("fecha")) {
-                            SimpleDateFormat dateParse = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                            Date fechaParseada = dateParse.parse(movimiento.get("fecha").toString());
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss");
-                            String fecha = dateFormat.format(fechaParseada);
-                            detalle += keyFormateada + ": " + fecha + "\n";
+                        Boolean saliente = movimiento.get("cbuSalida").toString().equals(cbuCuenta);
+                        String importe = "";
+                        if (saliente) {
+                            importe = "Importe: -" + movimiento.getString("importe");
                         } else {
-                            detalle += keyFormateada + ": " + movimiento.get(key) + "\n";
+                            importe = "Importe: " + movimiento.getString("importe");
                         }
-                    }
-                    Boolean saliente = movimiento.get("cbuSalida").equals(cbuCuenta);
-                    String importe = "";
-                    if (saliente) {
-                        importe = "Importe: -"+movimiento.getString("importe");
+                        listaMovimientos.add(new Movimiento(importe, detalle, saliente));
                     } else {
-                        importe = "Importe: "+movimiento.getString("importe");
+                        continue;
                     }
-                    listaMovimientos.add(new Movimiento(importe, detalle, saliente));
                 }
                 AdaptadorMovimientos adapter = new AdaptadorMovimientos(listaMovimientos);
                 recyclerMovimientos.setAdapter(adapter);

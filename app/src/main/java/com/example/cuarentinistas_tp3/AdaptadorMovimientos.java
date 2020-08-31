@@ -30,7 +30,7 @@ public class AdaptadorMovimientos extends RecyclerView.Adapter<AdaptadorMovimien
     public void onBindViewHolder(@NonNull AdaptadorMovimientos.ViewHolderMovimientos holder, int position) {
         holder.importe.setText(listaMovimientos.get(position).getImporte());
         if (listaMovimientos.get(position).getSaliente()) {
-            String rojo = "#A90A0A";
+            String rojo = "#FF0000";
             holder.importe.setTextColor(Color.parseColor(rojo));
         } else {
             String verde = "#0AA918";

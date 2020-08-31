@@ -1,5 +1,7 @@
 package com.example.cuarentinistas_tp3;
 
+import android.util.Log;
+
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
@@ -85,14 +87,12 @@ public class RESTService {
             result = sBuilder.toString();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("GET Error", "Error al hacer llamada GET", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
         }
         return result;
-
     }
-
 }
