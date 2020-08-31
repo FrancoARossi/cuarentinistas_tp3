@@ -49,7 +49,7 @@ public class MisCuentas extends AppCompatActivity {
                 JSONArray cuentas = new JSONArray(result);
 
                 for (int i = 0, size = cuentas.length(); i < size; i++) {
-                    JSONObject cuenta = cuentas.getJSONObject(i);
+                    final JSONObject cuenta = cuentas.getJSONObject(i);
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -62,7 +62,13 @@ public class MisCuentas extends AppCompatActivity {
                     btn = (Button) findViewById(id_);
                     btn.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View view) {
-                            startActivity(new Intent(getApplicationContext(), Lobby.class));
+                            Intent alLobby = new Intent(getApplicationContext(), Lobby.class);
+                            try {
+                                alLobby.putExtra("cbuCuenta", cuenta.getString("cbu"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            startActivity(alLobby);
                         }
                     });
                 }
@@ -71,14 +77,5 @@ public class MisCuentas extends AppCompatActivity {
             }
         }
     }
-
-    public void loadMisInversiones(View view) {
-    Intent intent = new Intent(this, MisInversiones.class);
-    startActivity(intent);
-    }
-//    public void loadUltimosMovimientos(View view) {
-//        Intent intent = new Intent(this, UltimosMovimientos.class);
-//        startActivity(intent);
-//    }
 }
 

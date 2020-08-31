@@ -24,9 +24,7 @@ public class UltimosMovimientos extends AppCompatActivity {
 
     ArrayList<Movimiento> listaMovimientos;
     RecyclerView recyclerMovimientos;
-    //Intent myIntent = getIntent();
-    //String cbuCuenta = myIntent.getStringExtra("cbuCuenta");
-    String cbuCuenta = "400720010";
+    String cbuCuenta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +33,14 @@ public class UltimosMovimientos extends AppCompatActivity {
         setContentView(R.layout.activity_ultimos_movimientos);
 
         recyclerMovimientos = (RecyclerView) findViewById(R.id.idRecyclerMovimientos);
-        recyclerMovimientos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
+        recyclerMovimientos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         asyncCall getUltimosMovimientos = new asyncCall();
         getUltimosMovimientos.execute();
+
+        Intent alLobby = getIntent();
+        cbuCuenta = alLobby.getStringExtra("cbuCuenta");
+
     }
 
 

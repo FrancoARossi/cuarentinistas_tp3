@@ -13,15 +13,20 @@ class ServerAddress {
 }
 
 public class Lobby extends AppCompatActivity {
-
+    String cbuCuenta;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_lobby);
+        setContentView(R.layout.activity_lobby);
+
+        Intent alLobby = getIntent();
+        cbuCuenta = alLobby.getStringExtra("cbuCuenta");
+
     }
 
     public void loadUltimosMovimientos(View view) {
         Intent intent = new Intent(this, UltimosMovimientos.class);
+        intent.putExtra("cbuCuenta", cbuCuenta);
         startActivity(intent);
     }
 
