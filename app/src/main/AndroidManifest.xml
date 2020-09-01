@@ -12,8 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RealizarInversiones" />
-        <activity android:name=".MisInversiones" />
         <activity android:name=".RealizarTransferencia" />
         <activity android:name=".MisCuentas" />
         <activity android:name=".UltimosMovimientos" />
