@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +20,8 @@ import org.json.JSONObject;
 public class MisCuentas extends AppCompatActivity {
 
     private LinearLayout container;
+    private TextView cliente;
+    private Button btnEditar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,11 @@ public class MisCuentas extends AppCompatActivity {
         container = (LinearLayout) findViewById(R.id.containerCuentas);
         asyncCall getMisCuentas = new asyncCall();
         getMisCuentas.execute();
+
+        cliente = findViewById(R.id.cliente);
+        btnEditar = findViewById(R.id.btnEditar);
+        asyncCallPerfil getPerfil = new asyncCallPerfil();
+        getPerfil.execute();
     }
 
 
@@ -72,6 +80,39 @@ public class MisCuentas extends AppCompatActivity {
                         }
                     });
                 }
+            } catch (JSONException e) {
+                Log.e("ERROR", "Se produjo el siguiente error:", e);
+            }
+        }
+    }
+
+    private class asyncCallPerfil extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... args) {
+            return RESTService.makeGetRequest(ServerAddress.value() + "/rest/clientes/1");
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+
+                JSONObject datosPersonales = new JSONObject(result);
+                final String nombreCliente = datosPersonales.getString("nombre");
+                final String apellidoCliente = datosPersonales.getString("apellido");
+                final String direccion = datosPersonales.getString("direccion");
+
+                cliente.setText(nombreCliente);
+
+                btnEditar.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+                        Intent alPerfil = new Intent(getApplicationContext(), Perfil.class);
+                        alPerfil.putExtra("nombre", nombreCliente);
+                        alPerfil.putExtra("apellido", apellidoCliente);
+                        alPerfil.putExtra("direccion", direccion);
+                        startActivity(alPerfil);
+                    }
+                });
+
             } catch (JSONException e) {
                 Log.e("ERROR", "Se produjo el siguiente error:", e);
             }
