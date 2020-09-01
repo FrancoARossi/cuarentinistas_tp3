@@ -105,7 +105,7 @@ public class MisCuentas extends AppCompatActivity {
 
                 btnEditar.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
-                        Intent alPerfil = new Intent(getApplicationContext(), Perfil.class);
+                        Intent alPerfil = new Intent(getApplicationContext(), EditarPerfil.class);
                         alPerfil.putExtra("nombre", nombreCliente);
                         alPerfil.putExtra("apellido", apellidoCliente);
                         alPerfil.putExtra("direccion", direccion);

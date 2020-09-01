@@ -17,4 +17,9 @@
     <string name="detalle">Detalle</string>
     <string name="importe">Importe</string>
     <string name="nombreBono">nombre_bono</string>
+    <string name="editNombre">Nombre</string>
+    <string name="editApellido">Apellido</string>
+    <string name="editDireccion">Direccion</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
 </resources>

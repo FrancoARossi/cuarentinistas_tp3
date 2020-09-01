@@ -53,7 +53,7 @@ public class RESTService {
             result = sBuilder.toString();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("ERROR", "callREST", e);
             return e.getLocalizedMessage();
         } finally {
             if (urlConnection != null) {

@@ -35,11 +35,11 @@ public class UltimosMovimientos extends AppCompatActivity {
         recyclerMovimientos = (RecyclerView) findViewById(R.id.idRecyclerMovimientos);
         recyclerMovimientos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        asyncCall getUltimosMovimientos = new asyncCall();
-        getUltimosMovimientos.execute();
-
         Intent alLobby = getIntent();
         cbuCuenta = alLobby.getStringExtra("cbuCuenta");
+
+        asyncCall getUltimosMovimientos = new asyncCall();
+        getUltimosMovimientos.execute();
 
     }
 

@@ -56,9 +56,6 @@ public class RealizarTransferencia extends AppCompatActivity {
                         .put("cbuDestino", cbuDestino.getText())
                         .put("importe", importe.getText());
                 result = RESTService.callREST(ServerAddress.value() + "/rest/movimientos", "POST", pago);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
