@@ -32,16 +32,7 @@ public class Lobby extends AppCompatActivity {
 
     public void loadRealizarTransferencia(View view) {
         Intent intent = new Intent(this, RealizarTransferencia.class);
-        startActivity(intent);
-    }
-
-    public void loadMisInversiones(View view) {
-        Intent intent = new Intent(this, MisInversiones.class);
-        startActivity(intent);
-    }
-
-    public void loadRealizarInversiones(View view) {
-        Intent intent = new Intent(this, RealizarInversiones.class);
+        intent.putExtra("cbuCuenta", cbuCuenta);
         startActivity(intent);
     }
 

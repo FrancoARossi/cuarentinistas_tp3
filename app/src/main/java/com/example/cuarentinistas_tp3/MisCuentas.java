@@ -56,7 +56,7 @@ public class MisCuentas extends AppCompatActivity {
                     Button btn = new Button(getApplicationContext());
                     btn.setId(i);
                     final int id_ = btn.getId();
-                    btn.setText(cuenta.getString("alias"));
+                    btn.setText(cuenta.getString("alias") + " [" + cuenta.get("cbu") + "]");
                     btn.setBackgroundColor(Color.rgb(0, 209, 178));
                     container.addView(btn, params);
                     btn = (Button) findViewById(id_);

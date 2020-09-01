@@ -6,4 +6,99 @@
     android:layout_height="match_parent"
     tools:context=".RealizarTransferencia">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/cbuDestino"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelCbuDestino" />
+
+    <EditText
+        android:id="@+id/descripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="51dp"
+        android:ems="10"
+        android:inputType="textWebEditText"
+        app:layout_constraintEnd_toEndOf="@+id/cbuDestino"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/cbuDestino"
+        app:layout_constraintTop_toBottomOf="@+id/cbuDestino" />
+
+    <EditText
+        android:id="@+id/importe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/descripcion"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/descripcion"
+        app:layout_constraintTop_toBottomOf="@+id/descripcion" />
+
+    <Button
+        android:id="@+id/enviar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Enviar"
+        app:layout_constraintEnd_toEndOf="@+id/importe"
+        app:layout_constraintStart_toStartOf="@+id/importe"
+        app:layout_constraintTop_toBottomOf="@+id/importe" />
+
+    <TextView
+        android:id="@+id/labelCbuDestino"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="76dp"
+        android:text="CBU Destino:"
+        app:layout_constraintStart_toStartOf="@+id/cbuDestino"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/labelDescripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginBottom="8dp"
+        android:text="Descripcion:"
+        app:layout_constraintBottom_toTopOf="@+id/descripcion"
+        app:layout_constraintStart_toStartOf="@+id/descripcion" />
+
+    <TextView
+        android:id="@+id/labelImporte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginBottom="9dp"
+        android:text="Importe:"
+        app:layout_constraintBottom_toTopOf="@+id/importe"
+        app:layout_constraintStart_toStartOf="@+id/importe" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
