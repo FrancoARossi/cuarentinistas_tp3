@@ -43,7 +43,6 @@ public class MisCuentas extends AppCompatActivity {
         @Override
         protected String doInBackground(String... args) {
             return RESTService.makeGetRequest(ServerAddress.value() + "/rest/cuentas/cliente/1");
-            //return RESTService.makeGetRequest("https://jsonplaceholder.typicode.com/todos");
         }
 
         @Override
@@ -95,20 +94,25 @@ public class MisCuentas extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             try {
-
                 JSONObject datosPersonales = new JSONObject(result);
+                final String id = datosPersonales.getString("id");
                 final String nombreCliente = datosPersonales.getString("nombre");
                 final String apellidoCliente = datosPersonales.getString("apellido");
                 final String direccion = datosPersonales.getString("direccion");
+                final String documento = datosPersonales.getString("documento");
+                final String fechaNac = datosPersonales.getString("fechaNac");
 
-                cliente.setText(nombreCliente);
+                cliente.setText(nombreCliente+" "+apellidoCliente);
 
                 btnEditar.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
-                        Intent alPerfil = new Intent(getApplicationContext(), EditarPerfil.class);
+                        Intent alPerfil = new Intent(getApplicationContext(), Perfil.class);
+                        alPerfil.putExtra("id", id);
                         alPerfil.putExtra("nombre", nombreCliente);
                         alPerfil.putExtra("apellido", apellidoCliente);
                         alPerfil.putExtra("direccion", direccion);
+                        alPerfil.putExtra("documento", documento);
+                        alPerfil.putExtra("fechaNac", fechaNac);
                         startActivity(alPerfil);
                     }
                 });

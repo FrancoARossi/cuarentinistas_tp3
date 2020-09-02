@@ -13,6 +13,9 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class RealizarTransferencia extends AppCompatActivity {
 
     String cbuCuenta;
@@ -50,8 +53,10 @@ public class RealizarTransferencia extends AppCompatActivity {
             String result;
             try {
                 JSONObject pago = new JSONObject();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                String fecha = dateFormat.format(new Date());
                 pago.put("cbuSalida", cbuCuenta)
-                        .put("fecha", "2020-07-15T03:00:00Z[UTC]")
+                        .put("fecha", fecha)
                         .put("descripcion", descripcion.getText())
                         .put("cbuDestino", cbuDestino.getText())
                         .put("importe", importe.getText());

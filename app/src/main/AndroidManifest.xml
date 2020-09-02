@@ -12,12 +12,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".EditarPerfil"></activity>
-        <activity android:name=".RealizarTransferencia" />
-        <activity android:name=".MisCuentas" />
-        <activity android:name=".UltimosMovimientos" />
-        <activity android:name=".Lobby" />
-        <activity android:name=".Login">
+        <activity
+            android:name=".Perfil"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".RealizarTransferencia"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MisCuentas"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".UltimosMovimientos"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Lobby"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Login"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

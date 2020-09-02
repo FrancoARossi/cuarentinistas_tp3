@@ -17,6 +17,8 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -48,7 +50,6 @@ public class UltimosMovimientos extends AppCompatActivity {
         @Override
         protected String doInBackground(String... args) {
             return RESTService.makeGetRequest(ServerAddress.value()+"/rest/movimientos");
-            //return RESTService.makeGetRequest("https://jsonplaceholder.typicode.com/todos");
         }
 
         @Override
@@ -67,8 +68,8 @@ public class UltimosMovimientos extends AppCompatActivity {
                     Iterator<String> iter = movimiento.keys();
                     String detalle = "";
 
-                    String cbuSalida = movimiento.get("cbuSalida").toString();
-                    String cbuDestino = movimiento.get("cbuDestino").toString();
+                    String cbuSalida = movimiento.getString("cbuSalida");
+                    String cbuDestino = movimiento.getString("cbuDestino");
 
                     if (cbuSalida.equals(cbuCuenta) || cbuDestino.equals(cbuCuenta)) {
                         while (iter.hasNext()) {
@@ -92,7 +93,7 @@ public class UltimosMovimientos extends AppCompatActivity {
                             }
                             if (key.equals("fecha")) {
                                 SimpleDateFormat dateParse = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                                Date fechaParseada = dateParse.parse(movimiento.get("fecha").toString());
+                                Date fechaParseada = dateParse.parse(movimiento.getString("fecha"));
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss");
                                 String fecha = dateFormat.format(fechaParseada);
                                 detalle += keyFormateada + ": " + fecha + "\n";
@@ -100,7 +101,7 @@ public class UltimosMovimientos extends AppCompatActivity {
                                 detalle += keyFormateada + ": " + movimiento.get(key) + "\n";
                             }
                         }
-                        Boolean saliente = movimiento.get("cbuSalida").toString().equals(cbuCuenta);
+                        Boolean saliente = movimiento.getString("cbuSalida").equals(cbuCuenta);
                         String importe = "";
                         if (saliente) {
                             importe = "Importe: -" + movimiento.getString("importe");
@@ -112,6 +113,7 @@ public class UltimosMovimientos extends AppCompatActivity {
                         continue;
                     }
                 }
+                Collections.reverse(listaMovimientos);
                 AdaptadorMovimientos adapter = new AdaptadorMovimientos(listaMovimientos);
                 recyclerMovimientos.setAdapter(adapter);
             } catch (JSONException | ParseException e) {
