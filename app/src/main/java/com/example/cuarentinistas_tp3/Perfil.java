@@ -43,15 +43,23 @@ public class Perfil extends AppCompatActivity {
         documento = Integer.parseInt(Objects.requireNonNull(alPerfil.getStringExtra("documento")));
         fechaNac = alPerfil.getStringExtra("fechaNac");
 
-        ((TextView)findViewById (R.id.idNombre)).setText(nombre);
-        ((TextView)findViewById (R.id.idApellido)).setText(apellido);
-        ((EditText)findViewById (R.id.editDireccion)).setText(direccion);
+        ((TextView) findViewById(R.id.idNombre)).setText(nombre);
+        ((TextView) findViewById(R.id.idApellido)).setText(apellido);
+        //((EditText)findViewById (R.id.editDireccion)).setText(direccion);
     }
 
     public void actualizarDireccion(View view) {
         asyncCall patchDireccion = new asyncCall();
-        nuevaDireccion = ((EditText)findViewById (R.id.editDireccion)).getText().toString();
+        nuevaDireccion = ((EditText) findViewById(R.id.editDireccion)).getText().toString();
         patchDireccion.execute();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        reloadDireccion recargar = new reloadDireccion();
+        recargar.execute();
 
     }
 
@@ -80,4 +88,25 @@ public class Perfil extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_LONG).show();
         }
     }
+
+    private class reloadDireccion extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... args) {
+            return RESTService.makeGetRequest(ServerAddress.value() + "/rest/clientes/1");
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                JSONObject datosPersonales = new JSONObject(result);
+                final String direccion = datosPersonales.getString("direccion");
+
+                ((EditText) findViewById(R.id.editDireccion)).setText(direccion);
+
+            } catch (JSONException e) {
+                Log.e("ERROR", "Se produjo el siguiente error:", e);
+            }
+        }
+    }
+
 }

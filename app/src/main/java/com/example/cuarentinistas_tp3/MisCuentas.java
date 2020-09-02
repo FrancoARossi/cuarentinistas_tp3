@@ -110,7 +110,7 @@ public class MisCuentas extends AppCompatActivity {
                         alPerfil.putExtra("id", id);
                         alPerfil.putExtra("nombre", nombreCliente);
                         alPerfil.putExtra("apellido", apellidoCliente);
-                        alPerfil.putExtra("direccion", direccion);
+                        //alPerfil.putExtra("direccion", direccion);
                         alPerfil.putExtra("documento", documento);
                         alPerfil.putExtra("fechaNac", fechaNac);
                         startActivity(alPerfil);
